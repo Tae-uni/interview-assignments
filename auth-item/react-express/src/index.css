@@ -1,0 +1,24 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    height: 500px;
+    width: 400px;
+}
+
+.form-email, .form-name {
+    margin-bottom: 2px;
+}
+
+.submit-btn {
+    margin-top: 15px;
+    padding-inline: 50px;
+}
+
+.cancel-btn {
+    background: red;
+    padding-inline: 50px;
+    margin-top: 5px;
+}
