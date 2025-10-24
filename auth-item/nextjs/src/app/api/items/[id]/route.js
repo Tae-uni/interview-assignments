@@ -2,6 +2,46 @@ import { NextResponse } from "next/server";
 import { verifyToken } from "@/lib/auth";
 import { itemSchema, items } from "@/lib/db";
 
+export async function GET(req, { params }) {
+    const { id } = await params;
+    const authHeader = req.headers.get("authorization");
+    if (!authHeader) {
+        return NextResponse.json(
+            { message: "Unauthorization" },
+            { status: 401 }
+        )
+    }
+
+    const token = authHeader.split(" ")[1];
+    const decoded = verifyToken(token);
+    if (!decoded) {
+        return NextResponse.json(
+            { message: "Invalid or expired token" },
+            { status: 401 }
+        )
+    }
+
+    const item = items.find((item) => item.id === id);
+    if (!item) {
+        return NextResponse.json(
+            { message: "Item not found" },
+            { status: 404 }
+        );
+    }
+
+    if (item.userId !== decoded.id) {
+        return NextResponse.json(
+            { message: "Forbidden: not your item" },
+            { status: 403 }
+        );
+    }
+
+    return NextResponse.json(
+        { message: "Item fetched successfully", item },
+        { status: 200 }
+    );
+}
+
 export async function PUT(req, { params }) {
     const { id } = await params;
     const authHeader = req.headers.get("authorization");
