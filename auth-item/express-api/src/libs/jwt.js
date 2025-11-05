@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY = "this_is_secret_key_for_test_kdjafidjod"
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY) throw new Error("Missing JWT KEY");
 
 export function generateToken(payload) {
     return jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });

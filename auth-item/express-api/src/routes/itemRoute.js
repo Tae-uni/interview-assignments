@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/items", authMiddleware, validate(itemSchema), createItem);
 router.get("/items", getItem);
-router.put("/items/:id", authMiddleware, modifyItem);
+router.put("/items/:id", authMiddleware, validate(itemSchema), modifyItem);
 router.delete("/items/:id", authMiddleware, deleteItems);
 
 export default router;
